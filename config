@@ -1,6 +1,8 @@
 #!/bin/bash
 
 ROOT_DIR=`pwd`
-POSTS_DIR=posts/
+THIRD_PARTY_DIR=$ROOT_DIR/third-party
+BUILD_DIR=$ROOT_DIR/build
+POST_DIR=$ROOT_DIR/posts
 
 
