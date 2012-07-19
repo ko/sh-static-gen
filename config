@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ROOT_DIR=`pwd`
+POSTS_DIR=posts/
+
+
