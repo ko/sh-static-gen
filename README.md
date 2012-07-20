@@ -6,6 +6,11 @@ eventual migration from django to markdown
 idea/requirements
 -----------------
 
+*TODO*
+posts need individual pages
+posts should go in words/ on the web
+
+
 *NEED*
 git repo with _only_ markdown entries
 * does not need to be a subdirectory of this project
