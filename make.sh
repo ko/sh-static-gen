@@ -4,6 +4,9 @@
 
 POST_LIST=""
 
+
+declare -i NONCE=$RANDOM
+
 declare -i LOGLEVEL=4
 declare -i ERR=1
 declare -i WARN=2
@@ -60,31 +63,61 @@ create_post_list()
     done
 }
 
-escape_html()
+# Description:  Replace whatever you can with the proper HTML 
+#               &entity_name as found in the w3schools site:
+#
+#               http://www.w3schools.com/html/html_entities.asp
+#
+#               Also, get rid of any commas and temporarily replace
+#               them in the HTML that we want to drop in later
+#               during the populate_template() phase. We'll add them
+#               back with the escape_post() function within the
+#               populate_template() function.
+#
+escape_pre()
 {
     local TXT=$1
 
     # Do this first or else... lol
     TXT=`echo $TXT | sed -e 's,\&,\&amp;,g'`
 
+    # TODO need to be smarter about this. 
+    #
     # < and >
     #TXT=`echo $TXT | sed -e 's,<,\&lt;,g'`
-    #TXT=`echo $TXT | sed -e 's,>,\&gt;,g'`
+    #TXT=`echo $TXT | sed -e 's,>,\&gt;,g 
 
-    # rest are found @ http://www.w3schools.com/html/html_entities.asp
+    TXT=`echo $TXT | sed -e "s/,/${NONCE}DELIMITER${NONCE}/g"`
 
     echo $TXT
 }
 
+# Description:  Add the commas (,) back to the file that we removed 
+#               earlier in escape_pre().
+
+escape_post()
+{ 
+    local TXT=$1
+
+    TXT=`echo $TXT | sed -e "s/${NONCE}DELIMITER${NONCE}/,/g"`
+
+    echo $TXT
+}
+
+# Description:  Escape everything. Add it to the proper
+#               place in the file based off the template
+#               keywords and do final preparation regarding
+#               the delimiter.
+#
 populate_template()
 {
-    AUTHOR=$(escape_html "$AUTHOR")
+    AUTHOR=$(escape_pre "$AUTHOR")
     LOG $DEBUG "==== AUTHOR ===="
     LOG $DEBUG "$AUTHOR"
-    TITLE=$(escape_html "$TITLE")
+    TITLE=$(escape_pre "$TITLE")
     LOG $DEBUG "==== TITLE ===="
     LOG $DEBUG "$TITLE"
-    POST_LIST=$(escape_html "$POST_LIST")
+    POST_LIST=$(escape_pre "$POST_LIST")
     LOG $DEBUG "=== POST LIST ===="
     LOG $DEBUG "$POST_LIST"
 
@@ -94,9 +127,11 @@ populate_template()
         if [ -f $FILE ]; then
             # TODO fix this broken sed 
             LOG $DEBUG "===== $FILE ====="
-            sed -i "s@{{ AUTHOR }}@$AUTHOR@g" $BUILD_DIR/$FILE
-            sed -i "s@{{ TITLE }}@$TITLE@g" $BUILD_DIR/$FILE
-            sed -i "s@{{ POST_LIST }}@$POST_LIST@g" $BUILD_DIR/$FILE
+            sed -i "s,{{ AUTHOR }},$AUTHOR,g" $BUILD_DIR/$FILE
+            sed -i "s,{{ TITLE }},$TITLE,g" $BUILD_DIR/$FILE
+            sed -i "s,{{ POST_LIST }},$POST_LIST,g" $BUILD_DIR/$FILE
+            PREPARED_FILE=$(escape_post "`cat $BUILD_DIR/$FILE`")
+            echo >$BUILD_DIR/$FILE $PREPARED_FILE
         fi
     done
 }
