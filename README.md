@@ -3,6 +3,7 @@ yaksok
 
 eventual migration from django to markdown
 
+
 idea/requirements
 -----------------
 
@@ -15,12 +16,13 @@ posts should go in words/ on the web
 git repo with _only_ markdown entries
 * does not need to be a subdirectory of this project
 deployment without exotic dependencies
+* bash v4(?)
+* python for markdown script
 generate static html pages
 deployable with git post-receive hook
 
 
 *WANT*
-generate simple design
-generate clean design
+design should be straightforward to modify
 
 
