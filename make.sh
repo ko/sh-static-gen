@@ -60,6 +60,14 @@ create_post_list()
         # create the link list
         POST_LIST="$P_A<br>$POST_LIST"
         $PYTHON_BIN $THIRD_PARTY_DIR/markdown2.py "$POST_DIR/$p" > $P_DST_BUILD
+
+        # setup the html for <pre> on $$\code
+        P_CODE_START="\$\$code(.*)"
+        P_CODE_END="\$\$/code"
+        sed -i "s,$P_CODE_START,<pre>,g" $P_DST_BUILD
+        sed -i "s,$P_CODE_END,</pre>,g" $P_DST_BUILD
+
+
     done
 }
 
