@@ -49,6 +49,24 @@ post_html_normalize()
     P_CODE_END="\$\$/code"
     sed -i "s,$P_CODE_START,<pre>,g" $P_DST_BUILD
     sed -i "s,$P_CODE_END,</pre>,g" $P_DST_BUILD
+
+    P_CODE_START="<code.*>"
+    P_CODE_END="</code>"
+    sed -i "s,$P_CODE_START,<pre>,g" $P_DST_BUILD
+    sed -i "s,$P_CODE_END,</pre>,g" $P_DST_BUILD
+}
+
+post_ignore_markdown_metadata()
+{
+    P_DST_BUILD=$1
+
+    P_GUID="^guid: "
+    P_PERMALINK="^permalink: "
+    P_TITLE="^title: "
+
+    sed -i "/$P_GUID/d" $P_DST_BUILD
+    sed -i "/$P_PERMALINK/d" $P_DST_BUILD
+    sed -i "/$P_TITLE/d" $P_DST_BUILD
 }
 
 create_post_list()
@@ -76,6 +94,7 @@ create_post_list()
         POST_LIST="$P_A</tr>$POST_LIST"
         $PYTHON_BIN $THIRD_PARTY_DIR/markdown2.py "$POST_DIR/$p" > $P_DST_BUILD
 
+        post_ignore_markdown_metadata $P_DST_BUILD
         post_html_normalize $P_DST_BUILD
 
     done
