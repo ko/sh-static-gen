@@ -63,7 +63,7 @@ create_post_list()
         P_TITLE=`grep -m1 "^title:" $POST_DIR/$p | cut -d' ' -f2-`
 
         # setup the html for <a>
-        P_DST_LIVE="/p/$P_PERMALINK"
+        P_DST_LIVE="/p/$P_PERMALINK.html"
         P_DST_BUILD="$BUILD_DIR/$P_DST_LIVE"
         P_A="<a href=\"$P_DST_LIVE\">$P_TITLE</a>"
 
