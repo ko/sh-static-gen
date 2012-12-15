@@ -70,17 +70,17 @@ create_post_list()
         P_A="<a href=\"$P_DST_LIVE\">$P_TITLE</a>"
 
         # add the date to the right of <a> in a table
-        P_A="<tr><td>$P_A</td><td>$P_DATE</td></tr>"
+        P_A="<td>$P_A</td><td>$P_DATE</td>"
 
         # create the link list
-        POST_LIST="$P_A<br>$POST_LIST"
+        POST_LIST="$P_A</tr>$POST_LIST"
         $PYTHON_BIN $THIRD_PARTY_DIR/markdown2.py "$POST_DIR/$p" > $P_DST_BUILD
 
         post_html_normalize $P_DST_BUILD
 
     done
 
-    POST_LIST="<table>$POST_LIST</table><br>"
+    POST_LIST="<table><tr>$POST_LIST</table><br>"
 }
 
 # Description:  Replace whatever you can with the proper HTML 
