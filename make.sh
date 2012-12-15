@@ -59,13 +59,18 @@ create_post_list()
     do
         # get metadata from post
         # TODO read once, parse in memory
-        P_PERMALINK=`grep -m1 "^permalink:" $POST_DIR/$p | cut -d' ' -f2`
-        P_TITLE=`grep -m1 "^title:" $POST_DIR/$p | cut -d' ' -f2-`
+        P_SRC=$POST_DIR/$p
+        P_PERMALINK=`grep -m1 "^permalink:" $P_SRC | cut -d' ' -f2`
+        P_TITLE=`grep -m1 "^title:" $P_SRC | cut -d' ' -f2-`
+        P_DATE=`grep -m1 "^date:" $P_SRC | cut -d' ' -f2-`
 
         # setup the html for <a>
         P_DST_LIVE="/p/$P_PERMALINK.html"
         P_DST_BUILD="$BUILD_DIR/$P_DST_LIVE"
         P_A="<a href=\"$P_DST_LIVE\">$P_TITLE</a>"
+
+        # add the date to the right of <a> in a table
+        P_A="<tr><td>$P_A</td><td>$P_DATE</td></tr>"
 
         # create the link list
         POST_LIST="$P_A<br>$POST_LIST"
@@ -74,6 +79,8 @@ create_post_list()
         post_html_normalize $P_DST_BUILD
 
     done
+
+    POST_LIST="<table>$POST_LIST</table><br>"
 }
 
 # Description:  Replace whatever you can with the proper HTML 
