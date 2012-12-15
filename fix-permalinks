@@ -1,0 +1,38 @@
+#!/bin/bash
+
+. config
+
+# Description:  Escape everything. Add it to the proper
+#               place in the file based off the template
+#               keywords and do final preparation regarding
+#               the delimiter.
+#
+fix_permalink()
+{
+    #   Replace all the variables in the "templates"
+    #
+    for FILE in `ls -1 $POST_DIR`; do
+        POST_FILE=$POST_DIR/$FILE
+        if [ -f $POST_FILE ]; then
+            # Do modifications to the post's title: value
+            POST_TITLE=`grep -m1 "^title:" $POST_FILE | cut -d' ' -f2-`
+            POST_TITLE=`echo $POST_TITLE | sed "s, ,-,g"` 
+            POST_TITLE=`echo $POST_TITLE | sed "s,^',,g"`
+            POST_TITLE=`echo $POST_TITLE | sed "s,'$,,g"`
+
+            # Save it now as the permalink: replacement
+            POST_PERMALINK=$POST_TITLE
+
+            NONCE0=$RANDOM
+            NONCE1=$RANDOM
+            POST_PERMALINK=`echo $POST_PERMALINK | sed "s/,/${NONCE0}${NONCE1}/g"`
+
+            echo $POST_PERMALINK
+
+            sed -i "s,^permalink:.*,permalink: $POST_PERMALINK,g" $POST_FILE
+            sed -i "s/${NONCE0}${NONCE1}/,/g" $POST_FILE
+        fi
+    done
+}
+
+fix_permalink
