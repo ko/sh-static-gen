@@ -1,8 +1,6 @@
 #!/bin/bash
 
-
-BUILD_DIR=build/
-LIVE_DIR=~/webapps/yaksok_static/
+. config
 
 rm -rf $LIVE_DIR/*
 cp -R $BUILD_DIR/* $LIVE_DIR/

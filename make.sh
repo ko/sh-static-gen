@@ -83,7 +83,7 @@ create_post_list()
         P_DATE=`grep -m1 "^date:" $P_SRC | cut -d' ' -f2-`
 
         # setup the html for <a>
-        P_DST_LIVE="/p/$P_PERMALINK.html"
+        P_DST_LIVE="$LIVE_PATH/p/$P_PERMALINK.html"
         P_DST_BUILD="$BUILD_DIR/$P_DST_LIVE"
         P_A="<a href=\"$P_DST_LIVE\">$P_TITLE</a>"
 
