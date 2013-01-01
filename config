@@ -6,11 +6,11 @@ BUILD_DIR=$ROOT_DIR/build
 SRC_DIR=$ROOT_DIR/src
 POST_DIR=$ROOT_DIR/posts
 
-LIVE_DIR=~/webapps/yaksok_root/blog
-LIVE_PATH="http://www.yaksok.net/blog"
+LIVE_DIR=~/webapps/relurori_root/blog
+LIVE_PATH="http://www.relurori.com/blog"
 
 PYTHON_BIN=python2.7
-TITLE="a note for myselves"
+TITLE="relu.rori tech notes"
 AUTHOR="Ken Ko"
 POST_LIST=""
 

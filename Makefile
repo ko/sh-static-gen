@@ -3,3 +3,6 @@ all:
 
 clean:
 	./make.sh clean
+
+install:
+	./install.sh

@@ -3,6 +3,10 @@ yaksok
 
 eventual migration from django to markdown
 
+bugs
+----
+adding LIVE_PATH in place of P_DST_LIVE has introduced sed/markdown.py errors
+
 
 idea/requirements
 -----------------
